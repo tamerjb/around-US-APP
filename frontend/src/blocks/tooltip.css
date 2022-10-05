@@ -1,0 +1,15 @@
+.tooltip__image {
+    width: 120px;
+    margin: 0 auto;
+}
+
+.tooltip__text {
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 30px;
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
+    width: 358px;
+    max-width: 100%;
+}

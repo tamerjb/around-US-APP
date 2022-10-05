@@ -1,0 +1,141 @@
+.auth-form {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 358px;
+    margin: 0 auto;
+    height: calc(100vh - 300px);
+    padding-top: 20px;
+}
+
+.auth-form__title {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 900;
+    padding: 0;
+    margin: 0 0 37px 0;
+}
+
+.auth-form__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.auth-form__input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 400;
+    color: #fff;
+    background-color: black;
+    box-sizing: border-box;
+    -webkit-transition: .3s linear;
+    -o-transition: .3s linear;
+    transition: .3s linear;
+    -webkit-box-shadow: 0 0 0 1000px #000 inset !important;
+    box-shadow: 0 0 0 1000px #000 inset !important;
+    -webkit-text-fill-color: white !important;
+
+}
+
+.auth-form__input:hover {
+    -webkit-transition: .3s linear;
+    -o-transition: .3s linear;
+    transition: .3s linear;
+    -webkit-transform: scale(1.01);
+    -ms-transform: scale(1.01);
+    transform: scale(1.01);
+    border-bottom: 1px solid #fff;
+}
+
+.auth-form__input:focus {
+    outline: none;
+}
+
+.auth-form__input:focus::placeholder {
+    color: transparent;
+}
+
+.auth-form__footer {
+    height: 100%;
+    max-height: 400px;
+    flex-grow: 1;
+    display: flex;
+    text-align: center;
+    flex-direction: column-reverse;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.auth-form__submit-button {
+    width: 100%;
+    padding: 14px 84px;
+    border: none;
+    border-radius: 2px;
+    background-color: #fff;
+    color: #000;
+    font-size: 18px;
+    line-height: 24px;
+    cursor: pointer;
+    transition: .3s linear;
+    display: block;
+}
+
+.auth-form__submit-button:hover {
+    transition: .3s linear;
+    transform: scale(1.1);
+}
+
+.auth-form__footer-text {
+    padding: 15px 0 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 400;
+
+    color: #fff;
+}
+
+.auth-form__footer-link {
+    background-image: linear-gradient(to right,
+            #54b3d6,
+            #54b3d6 50%,
+            #fff 50%);
+    background-size: 200% 100%;
+    background-position: -100%;
+    display: inline-block;
+    padding: 5px 0;
+    position: relative;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+.auth-form__footer-link:before {
+    content: '';
+    background: #54b3d6;
+    display: block;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.auth-form__footer-link:hover {
+    background-position: 0;
+}
+
+.auth-form__footer-link:hover::before {
+    width: 100%;
+}

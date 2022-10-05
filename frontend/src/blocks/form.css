@@ -1,0 +1,102 @@
+.form {
+    max-width: 358px;
+    width: 358px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    font-size: 14px;
+    line-height: 1.21;
+}
+
+.form__fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: none;
+    padding: 0;
+}
+
+.form__input {
+    padding: 13px 7px 9px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: rgba(0, 0, 0, 0.2) 1px solid;
+}
+
+.form__input:focus {
+    outline: none;
+}
+
+
+.form__input-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+.form__input-error {
+
+    font-size: 12px;
+    line-height: 15px;
+    color: #FF0000;
+    margin-top: 5px;
+
+}
+
+.form__input-errorline {
+    border-bottom: 1px solid #FF0000;
+}
+
+
+.form__input::placeholder {
+    color: #000;
+}
+
+
+
+.form__button {
+    background: #000;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1.22;
+    padding: 18.49px;
+    cursor: pointer;
+    transition: background ease-out 0.3s;
+}
+
+.form__button:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.form__button_disabled,
+.form__button_disabled:hover {
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.2);
+    cursor: default;
+}
+
+
+@media screen and (max-width: 524px) {
+    .form {
+        width: 100%;
+        max-width: none;
+        gap: 46px;
+    }
+
+    .form__button {
+        padding: 14px 100px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 17px;
+
+    }
+
+    .form__input {
+        max-width: 238px;
+        padding: 7px 0 12px;
+
+    }
+}

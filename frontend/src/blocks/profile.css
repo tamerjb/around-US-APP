@@ -1,0 +1,218 @@
+.profile {
+    display: flex;
+    color: #fff;
+    max-width: 880px;
+    justify-content: space-between;
+    gap: 30px;
+    align-items: center;
+    margin: 0 auto;
+    padding: 40px 0 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile__image-container {
+    position: relative;
+    border-radius: 100px;
+    height: 120px;
+    width: 120px;
+    z-index: 0;
+}
+
+.profile__image-container::before {
+    cursor: pointer;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 100px;
+    height: 100%;
+    z-index: 2;
+    transition: background-color 0.4s ease-out;
+}
+
+.profile__image-container:hover::before {
+    background-color: rgba(0, 0, 0, 0.8);
+    background-image: url("../images/icons/edit_icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+}
+
+.profile__image {
+    border-radius: 50%;
+    max-width: 120px;
+    max-height: 120px;
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    /* visibility: hidden; */
+}
+
+.profile__person {
+    display: flex;
+    gap: 18px;
+    align-items: flex-end;
+}
+
+.profile__info {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile__name {
+    padding: 0;
+    margin: 0;
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile__title {
+    padding: 0;
+    margin: 16px 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile__edit-button {
+    background-color: transparent;
+    box-sizing: border-box;
+    margin-bottom: 8px;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+    max-height: 24px;
+    max-width: 24px;
+    background-image: url("../images/icons/edit_icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    padding: calc(9px + (10px / 4));
+    border: #fff solid 1px;
+}
+
+.profile__edit-button:hover {
+    opacity: 0.6;
+}
+
+.profile__add-button {
+    background-color: transparent;
+    background-image: url("../images/icons/plus_icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 22px 22px;
+    padding: calc(12px + (22px / 2)) calc(62px + (22px / 2));
+    border: solid 2px #fff;
+    border-radius: 2px;
+    box-sizing: border-box;
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+}
+
+.profile__add-button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 765px) {
+    .profile__name {
+        font-size: 28px;
+        line-height: 1;
+        max-width: 282px;
+    }
+
+    .profile__edit-button {
+        margin-bottom: 2px;
+    }
+
+    .profile {
+        max-width: 760px;
+    }
+
+    .profile__title {
+        max-width: 282px;
+    }
+
+
+}
+
+@media screen and (max-width: 630px) {
+    .profile {
+        flex-direction: column;
+        text-align: center;
+        max-width: 630px;
+    }
+
+    .profile__title {
+        max-width: 282px;
+    }
+
+    .profile__name {
+        max-width: 282px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+
+    .profile {
+        max-width: 400px;
+    }
+
+    .profile__title {
+        max-width: 282px;
+    }
+
+    .profile__name {
+        max-width: 282px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .profile {
+        margin-bottom: 36px;
+        gap: 33px;
+        padding: 0;
+        margin-top: 42px;
+        max-width: 282px;
+    }
+
+    .profile__person {
+        gap: 9px;
+    }
+
+    .profile__name {
+        font-size: 22px;
+        line-height: 1.2;
+        max-width: 196px;
+    }
+
+
+    .profile__title {
+        font-size: 14px;
+        line-height: 1.21;
+    }
+
+    .profile__edit-button {
+        background-size: 7px 7px;
+        padding: calc(6px + (10px / 4));
+        margin-bottom: 4px;
+        max-width: 20px;
+        max-height: 20px;
+    }
+
+    .profile__add-button {
+        width: 100%;
+    }
+
+
+}
