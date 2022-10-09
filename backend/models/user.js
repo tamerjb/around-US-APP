@@ -5,19 +5,19 @@ import isEmail from 'validator/lib/isEmail';
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'The "name" field must be filled in.'],
+    default: 'Jacques Cousteau',
     minlength: [2, 'The minimum length of name is 2'],
     maxlength: [30, 'The maximum length of name is 30'],
   },
   about: {
     type: String,
-    required: [true, 'The "About" field must be filled in.'],
+    default: 'Explorer',
     minlength: [2, 'The minimum length of About is 2'],
     maxlength: [30, 'The maximum length of About is 30'],
   },
   avatar: {
     type: String,
-    required: [true, 'The "Avatar" field must be filled in.'],
+    default: 'link',
     validate: {
       validator(value) {
         return urlRegex.test(value);
@@ -28,6 +28,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, 'The "Avatar" field must be filled in.'],
+    unique: true,
 
     validate: {
       validator(value) {

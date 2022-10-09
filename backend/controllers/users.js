@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { customError } = require('../utils/consts');
+const { JWT_SECRET } = process.env;
 
 const getUsers = (req, res) => {
   User.find({})
@@ -36,7 +37,7 @@ const createUser = (req, res) => {
       name,
       about,
       avatar,
-      email: req.body.email,
+      email,
       // adding the hash to the database as password field
       password: hash,
     })
@@ -82,7 +83,7 @@ const updateUser = (req, res) => {
   const { name, about } = req.body;
 
   if (!name || !about) {
-    return customError(res, 400, 'Please update these fields name+about');
+    return customError(res, 400, 'Please update these fields name/about');
   }
   return updateUserData(req, res);
 };
@@ -96,10 +97,25 @@ const updateAvatar = (req, res) => {
   return updateUserData(req, res);
 };
 
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+        expiresIn: '7d',
+      });
+      res.send({ data: user.toJSON(), token });
+    })
+    .catch(() => {
+      customError(res, 401, err.message);
+    });
+};
+
 module.exports = {
   getUsers,
   getUser,
   createUser,
   updateUser,
   updateAvatar,
+  login,
 };
