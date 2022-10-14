@@ -42,6 +42,8 @@ const userSchema = new mongoose.Schema({
     required: [true, 'The "Password" field must be filled in.'],
     minlength: [2, 'The minimum length of Password is 2'],
     maxlength: [30, 'The maximum length of Password is 30'],
+    select: false, // add the select field
+
     validate: {
       validator(value) {
         return value;

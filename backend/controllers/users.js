@@ -2,8 +2,9 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const { customError } = require('../utils/consts');
 const { JWT_SECRET } = process.env;
+const Users = require('../models/user');
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
     .catch(() => customError(res, 500, 'We have encountered an error'));
@@ -31,17 +32,26 @@ const getUser = (req, res) => {
 };
 const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
-  bcrypt.hash(req.body.password, 10);
-  then((hash) =>
-    User.create({
-      name,
-      about,
-      avatar,
-      email,
-      // adding the hash to the database as password field
-      password: hash,
+  // first check if user exists
+  Users.findOne({ email })
+    .then((user) => {
+      if (user) {
+        // user already exists
+        customError(res, 409, 'Email already exists');
+      }
+      // user does not exist, so spit out a hashed password
+      return bcrypt.hash(password, 10);
     })
-  )
+    .then((hash) =>
+      User.create({
+        name,
+        about,
+        avatar,
+        email,
+        // adding the hash to the database as password field
+        password: hash,
+      })
+    )
     .then((user) => res.status(201).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {

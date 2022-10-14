@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { createUser, login } = require('../controllers/users');
+const { createUser, login } = require('../backend/controllers/users');
 const app = express();
-const auth = require('../middleware/auth');
+const auth = require('../backend/middleware/auth');
 
 /// ///////////////////////////////////////////////////////////////////
 
