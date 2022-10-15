@@ -33,7 +33,7 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({
     name: '',
-    link: '',
+    link: ''
   });
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
@@ -41,10 +41,11 @@ function App() {
   const [infoTooltipType, setInfoTooltipType] = useState('');
   //state for loggedIn
   const [loggedIn, setLoggedIn] = useState(false);
+  const [token, setToken] = useState(localStorage.getItem('jwt'));
 
   //state for user data
   const [userData, setUserData] = useState({
-    email: 'email@mail.com',
+    email: 'email@mail.com'
   });
   //state for checking token
   const [isCheckingToken, setIsCheckingToken] = useState(true);
@@ -52,36 +53,28 @@ function App() {
   ////////////////////////////////////////////////////////////
   //////////////// UseEffect Hooks ///////////////////////////
   ////////////////////////////////////////////////////////////
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch(console.log);
-  }, []);
 
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch(console.log);
-  }, []);
-  const handleUpdateUser = ({ name, about }) => {
-    setIsLoading(true);
-    api
-      .setUserInfo({ name, about })
-      .then((res) => {
-        setCurrentUser(res);
-        closeAllPopups();
-      })
-      .catch(console.log)
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+    if (token) {
+      api
+        .getInitialCards()
+        .then(res => {
+          setCards(res);
+        })
+        .catch(console.log);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      api
+        .getUserInfo()
+        .then(user => {
+          setCurrentUser(user);
+        })
+        .catch(console.log);
+    }
+  }, [token]);
 
   //check token
   useEffect(() => {
@@ -89,14 +82,14 @@ function App() {
     if (jwt) {
       auth
         .checkToken(jwt)
-        .then((res) => {
+        .then(res => {
           if (res.data._id) {
             setLoggedIn(true);
             setUserData({ email: res.data.email });
-            history.push('/react-around-auth');
+            history.push('/');
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           history.push('/signin');
         })
@@ -129,15 +122,15 @@ function App() {
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   };
-  const handleDeleteClick = (card) => {
+  const handleDeleteClick = card => {
     setIsDeletePopupOpen(true);
     setSelectedCard(card);
   };
-  const handleCardClick = (card) => {
+  const handleCardClick = card => {
     setIsImagePreviewOpen(true);
     setSelectedCard({
       name: card.name,
-      link: card.link,
+      link: card.link
     });
   };
   function handleCardDelete(e) {
@@ -145,9 +138,9 @@ function App() {
     setIsLoading(true);
     api
       .deleteCard(selectedCard._id)
-      .then((res) => {
+      .then(res => {
         const newCards = cards.filter(
-          (currentCard) => currentCard._id !== selectedCard._id
+          currentCard => currentCard._id !== selectedCard._id
         );
         setCards(newCards);
         closeAllPopups();
@@ -160,8 +153,8 @@ function App() {
   function handleUpdateAvatar(url) {
     setIsLoading(true);
     api
-      .setUserAvatar(url)
-      .then((res) => {
+      .setUserAvatar(url, token)
+      .then(res => {
         setCurrentUser(res);
         closeAllPopups();
       })
@@ -170,11 +163,24 @@ function App() {
         setIsLoading(false);
       });
   }
+  const handleUpdateUser = ({ name, about }) => {
+    setIsLoading(true);
+    api
+      .setUserInfo({ name, about }, token)
+      .then(res => {
+        setCurrentUser(res);
+        closeAllPopups();
+      })
+      .catch(console.log)
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
   function handleAddPlaceSubmit(card) {
     setIsLoading(true);
     api
-      .createCard(card)
-      .then((card) => {
+      .createCard(card, token)
+      .then(card => {
         setCards([card, ...cards]);
         closeAllPopups();
       })
@@ -188,7 +194,7 @@ function App() {
     setIsLoading(true);
     auth
       .register(email, password)
-      .then((res) => {
+      .then(res => {
         if (res.data._id) {
           setInfoTooltipType('successful');
           history.push('/signin');
@@ -196,7 +202,7 @@ function App() {
           setInfoTooltipType('unsuccessful');
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setInfoTooltipType('unsuccessful');
       })
@@ -210,15 +216,16 @@ function App() {
     setIsLoading(true);
     auth
       .login(email, password)
-      .then((res) => {
+      .then(res => {
         if (res.token) {
           setLoggedIn(true);
           setUserData({ email });
           localStorage.setItem('jwt', res.token);
-          history.push('/react-around-auth');
+          setToken(res.token);
+          history.push('/');
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setInfoTooltipType('unsuccessful');
         setIsInfoTooltipOpen(true);
@@ -236,13 +243,13 @@ function App() {
   }
   function handleCardLike(card) {
     // Check one more time if this card was already liked
-    const isLiked = card.likes.some((user) => user._id === currentUser._id);
+    const isLiked = card.likes.some(user => user._id === currentUser._id);
     // Send a request to the API and getting the updated card data
     api
-      .changeLikeCardStatus(card._id, !isLiked)
-      .then((newCard) => {
-        setCards((cards) =>
-          cards.map((currentCard) =>
+      .changeLikeCardStatus(card._id, !isLiked, token)
+      .then(newCard => {
+        setCards(cards =>
+          cards.map(currentCard =>
             currentCard._id === card._id ? newCard : currentCard
           )
         );
@@ -251,7 +258,7 @@ function App() {
   }
 
   return (
-    <div className='body'>
+    <div className="body">
       <CurrentUserContext.Provider value={currentUser}>
         <Header
           loggedIn={loggedIn}
@@ -261,7 +268,7 @@ function App() {
         <Switch>
           <ProtectedRoute
             exact
-            path='/react-around-auth'
+            path="/react-around-auth"
             loggedIn={loggedIn}
             isCheckingToken={isCheckingToken}
           >
@@ -275,19 +282,19 @@ function App() {
               cards={cards}
             />
           </ProtectedRoute>
-          <Route path='/signup'>
+          <Route path="/signup">
             <Register handleRegister={handleRegister} />
           </Route>
 
-          <Route path='/signin'>
+          <Route path="/signin">
             <Login handleLogin={handleLogin} isLoading={isLoading} />
           </Route>
 
           <Route>
             {loggedIn ? (
-              <Redirect to='/react-around-auth' />
+              <Redirect to="/react-around-auth" />
             ) : (
-              <Redirect to='/signin' />
+              <Redirect to="/signin" />
             )}
           </Route>
         </Switch>
@@ -298,7 +305,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
           isLoading={isLoading}
-          name='avatar'
+          name="avatar"
         />
         <AddPlacePopup
           isLoading={isLoading}
@@ -326,14 +333,14 @@ function App() {
           card={selectedCard}
           isOpen={isImagePreviewOpen}
           onClose={closeAllPopups}
-          name='popup__preview-container'
+          name="popup__preview-container"
         />
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
           type={infoTooltipType}
           isTooltipOpen={isInfoTooltipOpen}
-          name='tooltip'
+          name="tooltip"
         />
       </CurrentUserContext.Provider>
     </div>
