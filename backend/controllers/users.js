@@ -1,8 +1,7 @@
 const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const { customError } = require('../utils/consts');
 const { JWT_SECRET } = process.env;
-const Users = require('../models/user');
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -33,7 +32,7 @@ const getUser = (req, res) => {
 const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
   // first check if user exists
-  Users.findOne({ email })
+  User.findOne({ email })
     .then((user) => {
       if (user) {
         // user already exists

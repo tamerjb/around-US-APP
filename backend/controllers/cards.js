@@ -3,11 +3,16 @@ const { customError } = require('../utils/consts');
 
 // GET
 
-const getCards = (req, res) => {
+// const getCards = (req, res) => {
+//   Card.find({})
+//     .populate('owner')
+//     .then((cards) => res.status(200).send({ data: cards }))
+//     .catch(() => customError(res, 500, 'We have encountered an error'));
+// };
+const getCards = (req, res, next) => {
   Card.find({})
-    .populate('owner')
-    .then((cards) => res.status(200).send({ data: cards }))
-    .catch(() => customError(res, 500, 'We have encountered an error'));
+    .then((cards) => res.status(200).send(cards))
+    .catch(next);
 };
 // POST
 const createCard = (req, res) => {
@@ -61,7 +66,7 @@ const updateLikes = (req, res, operator) => {
   Card.findByIdAndUpdate(
     cardId, // searches for the card on the database
     { [operator]: { likes: _id } }, // $pull / $addToSet
-    { new: true },
+    { new: true }
   )
     .orFail(() => {
       const error = new Error('Card is not found');

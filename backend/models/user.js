@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { urlRegex } = require('../utils/consts');
-import isEmail from 'validator/lib/isEmail';
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -20,9 +20,9 @@ const userSchema = new mongoose.Schema({
     default: 'link',
     validate: {
       validator(value) {
-        return urlRegex.test(value);
+        return validator.isUrl(value);
       },
-      message: 'Invalid URL',
+      message: 'Invalid Link',
     },
   },
   email: {
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 
     validate: {
       validator(value) {
-        return isEmail(value);
+        return validator.isEmail(value);
       },
       message: 'Invalid Email',
     },

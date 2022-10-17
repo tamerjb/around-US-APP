@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { urlRegex } = require('../utils/consts');
+const validator = require('validator');
 
 const cardSchema = new mongoose.Schema(
   {
@@ -14,9 +15,9 @@ const cardSchema = new mongoose.Schema(
       required: [true, 'The "Link" field must be filled in.'],
       validate: {
         validator(value) {
-          return urlRegex.test(value);
+          return validator.isUrl(value);
         },
-        message: 'Invalid URL',
+        message: 'Invalid Link',
       },
     },
     owner: {
@@ -34,7 +35,7 @@ const cardSchema = new mongoose.Schema(
       default: Date.now,
     },
   },
-  { versionKey: false },
+  { versionKey: false }
 );
 
 module.exports = mongoose.model('card', cardSchema);

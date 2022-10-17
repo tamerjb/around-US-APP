@@ -1,8 +1,10 @@
 const express = require('express');
+const { errors } = require('celebrate');
 const mongoose = require('mongoose');
 const { createUser, login } = require('../backend/controllers/users');
 const app = express();
 const auth = require('../backend/middleware/auth');
+const errorHandler = require('./middleware/errorHandler');
 
 /// ///////////////////////////////////////////////////////////////////
 
@@ -27,11 +29,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(userRouter);
 app.use(cardRouter);
-app.use((req, res) => {
-  customError(res, 404, 'Requested resource not found');
-});
+app.use(errorHandler);
+app.use(errors());
 
-router.use(auth);
+// app.use((req, res) => {
+//   customError(res, 404, 'Requested resource not found');
+// });
+
+userRouter.use(auth);
+cardRouter.use(auth);
 
 //////////////////////////////////////////////////////////////////////
 
