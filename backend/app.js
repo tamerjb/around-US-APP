@@ -15,6 +15,9 @@ const { PORT = 3000 } = process.env;
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const { customError } = require('./utils/consts');
+const { requestLogger, errorLogger } = require('./middleware/logger');
+
+app.use(requestLogger); // enabling the request logger
 //////////////////////////////////////////////////////////////////////
 app.post('/signin', login);
 app.post('/signup', createUser);

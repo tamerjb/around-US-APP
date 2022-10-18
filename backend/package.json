@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js",
+    "start": "node app.js ",
+    "upload":"scp -r ./* tamerjb.98@tamerjb.students.nomoredomainssbs.ru:/home/tamerjb.98/backend",
     "lint": "npx eslint",
     "type": "module"
   },
@@ -24,6 +25,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "express": "^4.18.1",
+    "express-winston": "^4.2.0",
     "helmet": "^6.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.4",
@@ -31,6 +33,6 @@
   },
   "devDependencies": {
     "eslint": "^8.22.0",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.20"
   }
 }
