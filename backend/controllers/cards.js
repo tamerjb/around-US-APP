@@ -12,7 +12,7 @@ const { customError } = require('../utils/consts');
 const getCards = (req, res, next) => {
   Card.find({})
     .populate('owner')
-    .then((cards) => res.status(200).send('{ data: cards }'))
+    .then((cards) => res.status(200).send({ data: cards }))
     .catch(next);
 };
 // POST

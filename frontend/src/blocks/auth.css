@@ -6,6 +6,7 @@
     max-width: 358px;
     margin: 0 auto;
     height: calc(100vh - 300px);
+    min-height: 50vh;
     padding-top: 20px;
 }
 

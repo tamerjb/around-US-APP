@@ -268,7 +268,7 @@ function App() {
         <Switch>
           <ProtectedRoute
             exact
-            path="/react-around-auth"
+            path="/"
             loggedIn={loggedIn}
             isCheckingToken={isCheckingToken}
           >
@@ -291,11 +291,7 @@ function App() {
           </Route>
 
           <Route>
-            {loggedIn ? (
-              <Redirect to="/react-around-auth" />
-            ) : (
-              <Redirect to="/signin" />
-            )}
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
           </Route>
         </Switch>
 

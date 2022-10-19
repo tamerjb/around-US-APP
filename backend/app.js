@@ -23,7 +23,7 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const allowedOrigins = [
   'https://aroundtamer.students.nomoredomainssbs.ru',
-  'http://localhost:3000',
+  'http://localhost:3001',
 ];
 app.use(cors({ origin: allowedOrigins }));
 
