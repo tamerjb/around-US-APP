@@ -4,11 +4,14 @@ const mongoose = require('mongoose');
 const { createUser, login } = require('../backend/controllers/users');
 const app = express();
 const auth = require('../backend/middleware/auth');
+require('dotenv').config({ path: './.env' });
 const errorHandler = require('./middleware/errorHandler');
 
 /// ///////////////////////////////////////////////////////////////////
 
-mongoose.connect('mongodb://localhost:27017/aroundb');
+const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
+mongoose.connect(MONGODB_URI);
+
 /// ///////////////////////////////////////////////////////////////////
 
 const { PORT = 3000 } = process.env;

@@ -11,11 +11,12 @@ const { customError } = require('../utils/consts');
 // };
 const getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.status(200).send(cards))
+    .populate('owner')
+    .then((cards) => res.status(200).send('{ data: cards }'))
     .catch(next);
 };
 // POST
-const createCard = (req, res) => {
+const createCard = (req, res, next) => {
   const { name, link, likes } = req.body;
   const { _id } = req.user;
 
@@ -33,13 +34,12 @@ const createCard = (req, res) => {
             .map((error) => error.message)
             .join(', ')}`,
         });
-      } else {
-        customError(res, 500, 'We have encountered an error');
       }
-    });
+    })
+    .catch(next);
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
   Card.deleteOne({ cardId })
@@ -49,15 +49,16 @@ const deleteCard = (req, res) => {
       throw error;
     })
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        customError(res, 400, 'Invaild Card ID');
-      } else if (err.statusCode === 404) {
-        customError(res, 404, err.message);
-      } else {
-        customError(res, 500, 'We have encountered an error');
-      }
-    });
+    .catch(next);
+  // .catch((err) => {
+  //   if (err.name === 'CastError') {
+  //     customError(res, 400, 'Invaild Card ID');
+  //   } else if (err.statusCode === 404) {
+  //     customError(res, 404, err.message);
+  //   } else {
+  //     customError(res, 500, 'We have encountered an error');
+  //   }
+  // });
 };
 const updateLikes = (req, res, operator) => {
   const { cardId } = req.params;
@@ -75,15 +76,16 @@ const updateLikes = (req, res, operator) => {
       throw error;
     })
     .then((card) => res.send({ data: card }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        customError(res, 400, 'Card id is incorrect');
-      } else if (err.status === 404) {
-        customError(res, 404, 'Invalid user id');
-      } else {
-        customError(res, 500, 'Something went wrong');
-      }
-    });
+    .catch(next);
+  // .catch((err) => {
+  //   if (err.name === 'CastError') {
+  //     customError(res, 400, 'Card id is incorrect');
+  //   } else if (err.status === 404) {
+  //     customError(res, 404, 'Invalid user id');
+  //   } else {
+  //     customError(res, 500, 'Something went wrong');
+  //   }
+  // });
 };
 
 const likeCard = (req, res) => updateLikes(req, res, { $addToSet: {} });

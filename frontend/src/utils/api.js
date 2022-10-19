@@ -10,19 +10,50 @@ class Api {
     return Promise.reject(`Error ${res.status}`);
   }
 
-  getInitialCards() {
+  // getInitialCards() {
+  //   return fetch(`${this._baseUrl}/cards`, {
+  //     headers: this._headers
+  //   }).then(this._checkResponse);
+  // }
+  getInitialCards(token) {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     }).then(this._checkResponse);
   }
-  getUserInfo() {
+
+  // getUserInfo() {
+  //   return fetch(`${this._baseUrl}/users/me`, {
+  //     headers: this._headers
+  //   }).then(this._checkResponse);
+  // }
+  getUserInfo(token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     }).then(this._checkResponse);
   }
-  setUserInfo({ name, about }) {
+
+  // setUserInfo({ name, about }) {
+  //   return fetch(`${this._baseUrl}/users/me`, {
+  //     headers: this._headers,
+  //     method: 'PATCH',
+  //     body: JSON.stringify({
+  //       name: name,
+  //       about: about
+  //     })
+  //   }).then(this._checkResponse);
+  // }
+  setUserInfo({ name, about }, token) {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       method: 'PATCH',
       body: JSON.stringify({
         name: name,
@@ -30,45 +61,96 @@ class Api {
       })
     }).then(this._checkResponse);
   }
-  createCard(data) {
+
+  // createCard(data) {
+  //   return fetch(`${this._baseUrl}/cards`, {
+  //     headers: this._headers,
+  //     method: 'POST',
+  //     body: JSON.stringify(data)
+  //   }).then(this._checkResponse);
+  // }
+  // deleteCard(cardId) {
+  //   return fetch(`${this._baseUrl}/cards/${cardId}`, {
+  //     headers: this._headers,
+  //     method: 'DELETE'
+  //   }).then(this._checkResponse);
+  // }
+  createCard(data, token) {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       method: 'POST',
       body: JSON.stringify(data)
     }).then(this._checkResponse);
   }
-  deleteCard(cardId) {
+
+  deleteCard(cardId, token) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       method: 'DELETE'
     }).then(this._checkResponse);
   }
 
-  changeLikeCardStatus(cardId, isLiked) {
+  // changeLikeCardStatus(cardId, isLiked) {
+  //   if (!isLiked) {
+  //     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+  //       headers: this._headers,
+  //       method: 'DELETE'
+  //     }).then(this._checkResponse);
+  //   } else {
+  //     return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+  //       headers: this._headers,
+  //       method: 'PUT'
+  //     }).then(this._checkResponse);
+  //   }
+  // }
+  changeLikeCardStatus(cardId, isLiked, token) {
     if (!isLiked) {
-      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        headers: this._headers,
-        method: 'DELETE'
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        method: 'PUT'
       }).then(this._checkResponse);
     } else {
-      return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-        headers: this._headers,
-        method: 'PUT'
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        method: 'DELETE'
       }).then(this._checkResponse);
     }
   }
 
-  setUserAvatar(url) {
+  // setUserAvatar(url) {
+  //   return fetch(`${this._baseUrl}/users/me/avatar`, {
+  //     headers: this._headers,
+  //     method: 'PATCH',
+  //     body: JSON.stringify({
+  //       avatar: url
+  //     })
+  //   }).then(this._checkResponse);
+  // }
+
+  setUserAvatar(url, token) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       method: 'PATCH',
       body: JSON.stringify({
         avatar: url
       })
     }).then(this._checkResponse);
   }
-
-  // other methods for working with the API
 }
 
 let node_env = 'production';
