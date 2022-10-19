@@ -20,9 +20,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
+"deploy": "npm run build && scp -r ./build/* tamerjb.98@tamerjb.students.nomoredomainssbs.ru:/home/tamerjb.98/frontend"  },
   "eslintConfig": {
     "extends": [
       "react-app",
