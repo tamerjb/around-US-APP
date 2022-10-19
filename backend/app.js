@@ -3,6 +3,7 @@ const { errors } = require('celebrate');
 const mongoose = require('mongoose');
 const { createUser, login } = require('../backend/controllers/users');
 const app = express();
+const cors = require('cors');
 const auth = require('../backend/middleware/auth');
 require('dotenv').config({ path: './.env' });
 const errorHandler = require('./middleware/errorHandler');
@@ -19,6 +20,12 @@ const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const { customError } = require('./utils/consts');
 const { requestLogger, errorLogger } = require('./middleware/logger');
+
+const allowedOrigins = [
+  'https://aroundtamer.students.nomoredomainssbs.ru',
+  'http://localhost:3000',
+];
+app.use(cors({ origin: allowedOrigins }));
 
 app.use(requestLogger); // enabling the request logger
 //////////////////////////////////////////////////////////////////////
