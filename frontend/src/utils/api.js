@@ -12,35 +12,35 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: this._headers,
+      headers: this._headers
     }).then(this._checkResponse);
   }
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: this._headers,
+      headers: this._headers
     }).then(this._checkResponse);
   }
   setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers,
-      method: "PATCH",
+      method: 'PATCH',
       body: JSON.stringify({
         name: name,
-        about: about,
-      }),
+        about: about
+      })
     }).then(this._checkResponse);
   }
   createCard(data) {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers,
-      method: "POST",
-      body: JSON.stringify(data),
+      method: 'POST',
+      body: JSON.stringify(data)
     }).then(this._checkResponse);
   }
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       headers: this._headers,
-      method: "DELETE",
+      method: 'DELETE'
     }).then(this._checkResponse);
   }
 
@@ -48,12 +48,12 @@ class Api {
     if (!isLiked) {
       return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
         headers: this._headers,
-        method: "DELETE",
+        method: 'DELETE'
       }).then(this._checkResponse);
     } else {
       return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
         headers: this._headers,
-        method: "PUT",
+        method: 'PUT'
       }).then(this._checkResponse);
     }
   }
@@ -61,21 +61,25 @@ class Api {
   setUserAvatar(url) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       headers: this._headers,
-      method: "PATCH",
+      method: 'PATCH',
       body: JSON.stringify({
-        avatar: url,
-      }),
+        avatar: url
+      })
     }).then(this._checkResponse);
   }
 
   // other methods for working with the API
 }
 
+let node_env = 'production';
+
+let baseUrl =
+  node_env === 'production'
+    ? 'https://api.aroundtamer.students.nomoredomainssbs.ru'
+    : 'http://localhost:3000';
+
 const api = new Api({
-  baseUrl: "https://around.nomoreparties.co/v1/cohort-3-en", //cohort-3-en
-  headers: {
-    authorization: "edde3a5c-b30d-40b0-99e9-6f72ee976ddf",
-    "Content-Type": "application/json",
-  },
+  baseUrl
 });
+
 export default api;
