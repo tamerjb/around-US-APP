@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js ",
-    "upload": "scp -r ./* tamerjb.98@tamerjb.students.nomoredomainssbs.ru:/home/tamerjb.98/backend",
     "lint": "npx eslint",
     "type": "module"
   },
@@ -21,6 +20,7 @@
   },
   "homepage": "https://github.com/tamerjb/around-express#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -35,7 +35,6 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "eslint": "^8.22.0",
-    "nodemon": "^2.0.20"
+    "eslint": "^8.22.0"
   }
 }

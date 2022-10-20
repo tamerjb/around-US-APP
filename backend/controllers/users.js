@@ -1,44 +1,46 @@
 const User = require('../models/user');
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const { customError } = require('../utils/consts');
 const { JWT_SECRET } = process.env;
+
+const processUserWithId = (req, res, action, next) =>
+  action
+    .orFail(() => {
+      throw new Error('No user found with this Id');
+    })
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        next(new Error(err.message));
+      } else if (err.name === 'ValidationError') {
+        next(new Error(err.message));
+      } else {
+        next(err);
+      }
+    });
 
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
-    .catch(() => customError(res, 500, 'We have encountered an error'));
+    .catch(next);
 };
-const getUser = (req, res) => {
-  const { userId } = req.params;
-  User.findById(userId)
-    .orFail(() => {
-      const error = new Error('User Not Found');
-      error.status = 404;
-      throw error;
-    })
-    .then((user) => {
-      res.status(200).send({ data: user });
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        customError(res, 400, 'User ID not found');
-      } else if (err.type === 404) {
-        customError(res, 404, 'We have encountered an error');
-      } else {
-        customError(res, 500, 'We have encountered an error');
-      }
-    });
+
+const getCurrentUser = (req, res, next) => {
+  processUserWithId(req, res, User.findById(req.user._id), next);
 };
-const createUser = (req, res) => {
+const getUserId = (req, res, next) => {
+  processUserWithId(req, res, User.findById(req.params._id), next);
+};
+
+const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
-  // first check if user exists
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        // user already exists
         customError(res, 409, 'Email already exists');
       }
-      // user does not exist, so spit out a hashed password
       return bcrypt.hash(password, 10);
     })
     .then((hash) =>
@@ -47,7 +49,6 @@ const createUser = (req, res) => {
         about,
         avatar,
         email,
-        // adding the hash to the database as password field
         password: hash,
       })
     )
@@ -65,66 +66,52 @@ const createUser = (req, res) => {
     });
 };
 
-const updateUserData = (req, res) => {
-  const id = req.user._id;
-  const { name, about, avatar } = req.body;
-  User.findByIdAndUpdate(id, { name, about, avatar }, { runValidators: true })
-    .orFail(() => {
-      const error = new Error('Invalid user id');
-
-      error.status = 404;
-
-      throw error;
-    })
-    .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        customError(res, 400, 'User ID not found');
-      } else if (err.status === 404) {
-        customError(res, 404, 'Requested resource not found');
-      } else {
-        customError(res, 500, 'We have encountered an error');
-      }
-    });
-};
-
-const updateUser = (req, res) => {
+const updateProfile = (req, res, next) => {
   const { name, about } = req.body;
-
-  if (!name || !about) {
-    return customError(res, 400, 'Please update these fields name/about');
-  }
-  return updateUserData(req, res);
+  const { _id } = req.user;
+  processUserWithId(
+    req,
+    res,
+    User.findByIdAndUpdate(
+      _id,
+      { name, about },
+      { new: true, runValidators: true }
+    ),
+    next
+  );
 };
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res, next) => {
+  const { _id } = req.user;
   const { avatar } = req.body;
-
-  if (!avatar) {
-    return customError(res, 400, 'Please update avatar');
-  }
-  return updateUserData(req, res);
+  processUserWithId(
+    req,
+    res,
+    User.findByIdAndUpdate(_id, { avatar }, { new: true, runValidators: true }),
+    next
+  );
 };
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+      const token = jwt.sign({ id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
       res.send({ data: user.toJSON(), token });
     })
-    .catch(() => {
+    .catch((err) => {
       customError(res, 401, err.message);
     });
 };
 
 module.exports = {
   getUsers,
-  getUser,
+  getUserId,
+  getCurrentUser,
   createUser,
-  updateUser,
+  updateProfile,
   updateAvatar,
   login,
 };
