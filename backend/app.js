@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 const auth = require('../backend/middleware/auth');
-require('dotenv').config({ path: './.env' });
+require('dotenv').config();
 const errorHandler = require('./middleware/errorHandler');
 const router = require('./routes');
 
