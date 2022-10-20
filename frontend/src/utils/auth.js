@@ -36,7 +36,7 @@ export const checkToken = token => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      authorization: `Bearer ${token}`
     }
   });
 };

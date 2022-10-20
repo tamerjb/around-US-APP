@@ -19,7 +19,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`
       }
     }).then(this._checkResponse);
   }
@@ -33,7 +33,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`
       }
     }).then(this._checkResponse);
   }
@@ -52,7 +52,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`
       },
       method: 'PATCH',
       body: JSON.stringify({
@@ -79,7 +79,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`
       },
       method: 'POST',
       body: JSON.stringify(data)
@@ -90,7 +90,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`
       },
       method: 'DELETE'
     }).then(this._checkResponse);
@@ -114,7 +114,7 @@ class Api {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          authorization: `Bearer ${token}`
         },
         method: 'PUT'
       }).then(this._checkResponse);
@@ -122,7 +122,7 @@ class Api {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          authorization: `Bearer ${token}`
         },
         method: 'DELETE'
       }).then(this._checkResponse);
@@ -143,7 +143,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`
       },
       method: 'PATCH',
       body: JSON.stringify({
