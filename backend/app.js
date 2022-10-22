@@ -15,7 +15,7 @@ mongoose.connect(MONGODB_URI);
 
 /// ///////////////////////////////////////////////////////////////////
 
-const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 // const userRouter = require('./routes/users');
 // const cardRouter = require('./routes/cards');
 // const { customError } = require('./utils/consts');
