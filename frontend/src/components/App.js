@@ -84,6 +84,8 @@ function App() {
         .checkToken(jwt)
         .then(res => {
           if (res.data._id) {
+            console.log(res);
+
             setLoggedIn(true);
             setUserData({ email: res.data.email });
             history.push('/');

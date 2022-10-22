@@ -11,8 +11,8 @@ const {
   validateCardBody,
 } = require('../middleware/validation');
 
-router.get('/', getCards);
-router.post('/', validateCardBody, createCard);
+router.get('/cards', getCards);
+router.post('/cards', validateCardBody, createCard);
 router.delete('/:cardId', validateObjectId, deleteCard);
 router.put('/:cardId/likes', validateObjectId, likeCard);
 router.delete('/:cardId/likes', validateObjectId, unlikeCard);

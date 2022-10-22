@@ -16,9 +16,9 @@ mongoose.connect(MONGODB_URI);
 /// ///////////////////////////////////////////////////////////////////
 
 const { PORT = 3001 } = process.env;
-const userRouter = require('./routes/users');
-const cardRouter = require('./routes/cards');
-const { customError } = require('./utils/consts');
+// const userRouter = require('./routes/users');
+// const cardRouter = require('./routes/cards');
+// const { customError } = require('./utils/consts');
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
 const allowedOrigins = '*';
@@ -42,8 +42,9 @@ app.use(router);
 //   customError(res, 404, 'Requested resource not found');
 // });
 
-userRouter.use(auth);
-cardRouter.use(auth);
+// userRouter.use(auth);
+// cardRouter.use(auth);
+router.use(auth);
 app.use(errorHandler);
 app.use(errors());
 app.use(errorLogger);
