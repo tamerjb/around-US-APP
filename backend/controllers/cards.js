@@ -1,21 +1,15 @@
 const Card = require('../models/card');
-const { customError } = require('../utils/consts');
 const { processCardWithId } = require('../utils/helpers');
+const Errorr = require('../utils/errors');
 
 // GET
 
-// const getCards = (req, res) => {
-//   Card.find({})
-//     .populate('owner')
-//     .then((cards) => res.status(200).send({ data: cards }))
-//     .catch(() => customError(res, 500, 'We have encountered an error'));
-// };
-class BadRequestError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 400;
-  }
-}
+// class BadRequestError extends Error {
+//   constructor(message) {
+//     super(message);
+//     this.statusCode = 400;
+//   }
+// }
 
 const getCards = (_req, res, next) => {
   Card.find({})
@@ -36,7 +30,7 @@ const createCard = (req, res, next) => {
     .then((card) => res.status(201).send(card)) // changed from data to cards :data
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError(err.message));
+        next(Errorr.BadRequestError(err.message));
       } else {
         next(err);
       }
@@ -44,15 +38,18 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  const { cardId } = req.params._id;
-  console.log(cardId);
+  const { cardId } = req.params;
   Card.findById(cardId)
     .orFail(() => {
-      throw new Error('Card not found');
+      throw new Errorr.NotFoundError('Card Not Found');
     })
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        next(new Error('You are not authorized to delete this card'));
+        next(
+          new Errorr.ForbiddenError(
+            'You are not authorized to delete this card'
+          )
+        );
       } else {
         Card.findByIdAndRemove(cardId).then((deletedCard) =>
           res.status(200).send(deletedCard)

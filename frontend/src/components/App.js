@@ -138,8 +138,10 @@ function App() {
   function handleCardDelete(e) {
     e.preventDefault();
     setIsLoading(true);
+    console.log('selectedCard._id', selectedCard._id);
+
     api
-      .deleteCard(selectedCard._id)
+      .deleteCard(selectedCard._id, token)
       .then(res => {
         const newCards = cards.filter(
           currentCard => currentCard._id !== selectedCard._id

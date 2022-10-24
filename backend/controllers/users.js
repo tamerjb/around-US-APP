@@ -1,10 +1,13 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const { customError } = require('../utils/consts');
+const Errorr = require('../utils/errors');
+
 require('dotenv').config();
 
 const { JWT_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
+const { errorMonitor } = require('events');
 
 const processUserWithId = (req, res, action, next) =>
   action
@@ -102,11 +105,10 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
-      // console.log('JWT_SECRET', JWT_SECRET);
       res.send({ data: user, token });
     })
     .catch((err) => {
-      customError(res, 401, err.message);
+      next(new Errorr.UnauthorizedError('Incorrect Email Or Password'));
     });
 };
 
