@@ -91,11 +91,12 @@ const validateObjectId = celebrate({
 
 const validateCardBody = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30).messages({
-      'string.empty': 'Name is required',
-      'string.min': 'Name must be at least 2 characters ',
-      'string.max': 'Name must be less than 30 characters ',
-    }),
+    name: Joi.string().required().min(2).max(30)
+      .messages({
+        'string.empty': 'Name is required',
+        'string.min': 'Name must be at least 2 characters ',
+        'string.max': 'Name must be less than 30 characters ',
+      }),
     link: Joi.string().required().custom(validateURL).messages({
       'string.empty': 'Link is required',
       'string.uri': 'Invalid URL for card link',

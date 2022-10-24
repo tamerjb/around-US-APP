@@ -36,7 +36,10 @@ function App() {
     link: ''
   });
   const [cards, setCards] = useState([]);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({
+    name: 'Loading...',
+    about: 'Loading...'
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [infoTooltipType, setInfoTooltipType] = useState('');
   //state for loggedIn
@@ -45,7 +48,7 @@ function App() {
 
   //state for user data
   const [userData, setUserData] = useState({
-    email: 'email@mail.com'
+    email: ''
   });
   //state for checking token
   const [isCheckingToken, setIsCheckingToken] = useState(true);
@@ -57,7 +60,7 @@ function App() {
   useEffect(() => {
     if (token) {
       api
-        .getInitialCards()
+        .getInitialCards(token)
         .then(res => {
           setCards(res);
         })
@@ -68,7 +71,7 @@ function App() {
   useEffect(() => {
     if (token) {
       api
-        .getUserInfo()
+        .getUserInfo(token)
         .then(user => {
           setCurrentUser(user);
         })
@@ -78,16 +81,13 @@ function App() {
 
   //check token
   useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
+    if (token) {
       auth
-        .checkToken(jwt)
+        .checkToken(token)
         .then(res => {
-          if (res.data._id) {
-            console.log(res);
-
+          if (res.data) {
             setLoggedIn(true);
-            setUserData({ email: res.data.email });
+            setUserData({ email: res.email });
             history.push('/');
           }
         })
@@ -245,10 +245,10 @@ function App() {
   }
   function handleCardLike(card) {
     // Check one more time if this card was already liked
-    const isLiked = card.likes.some(user => user._id === currentUser._id);
+    const isLiked = card.likes.some(user => user === currentUser._id);
     // Send a request to the API and getting the updated card data
     api
-      .changeLikeCardStatus(card._id, !isLiked, token)
+      .changeLikeCardStatus(card._id, isLiked, token)
       .then(newCard => {
         setCards(cards =>
           cards.map(currentCard =>

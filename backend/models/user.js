@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { urlRegex } = require('../utils/consts');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
@@ -22,7 +21,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
     validate: {
-      validator: (value) => urlRegex.test(value),
+      validator: (value) => validator.isURL(value),
       message: 'Invalid URL',
     },
   },

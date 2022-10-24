@@ -101,7 +101,7 @@ let node_env = 'production';
 
 // let baseUrl =
 //   node_env === 'production' ? 'http://localhost:3001' : 'http://localhost:3001';
-let baseUrl = 'https://api.aroundtamer.students.nomoredomainssbs.ru';
+let baseUrl = 'http://localhost:3000';
 
 const api = new Api({
   baseUrl

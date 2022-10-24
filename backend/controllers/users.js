@@ -1,7 +1,8 @@
-const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const User = require('../models/user');
 const { customError } = require('../utils/consts');
 require('dotenv').config();
+
 const { JWT_SECRET } = process.env;
 const jwt = require('jsonwebtoken');
 
@@ -101,11 +102,10 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
-      console.log(JWT_SECRET);
+      // console.log('JWT_SECRET', JWT_SECRET);
       res.send({ data: user, token });
     })
     .catch((err) => {
-      console.log('JWT_SECRET', JWT_SECRET);
       customError(res, 401, err.message);
     });
 };

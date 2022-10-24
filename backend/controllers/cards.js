@@ -1,5 +1,6 @@
 const Card = require('../models/card');
 const { customError } = require('../utils/consts');
+const { processCardWithId } = require('../utils/helpers');
 
 // GET
 
@@ -9,87 +10,71 @@ const { customError } = require('../utils/consts');
 //     .then((cards) => res.status(200).send({ data: cards }))
 //     .catch(() => customError(res, 500, 'We have encountered an error'));
 // };
-const getCards = (req, res, next) => {
+class BadRequestError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 400;
+  }
+}
+
+const getCards = (_req, res, next) => {
   Card.find({})
-    .then((cards) => res.status(200).send({ data: cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
+
 // POST
 const createCard = (req, res, next) => {
-  const { name, link, likes } = req.body;
+  const { name, link } = req.body;
   const { _id } = req.user;
 
   Card.create({
     name,
     link,
-    likes,
     owner: _id,
   })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send(card)) // changed from data to cards :data
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
-          message: `${Object.values(err.errors)
-            .map((error) => error.message)
-            .join(', ')}`,
-        });
+        next(new BadRequestError(err.message));
+      } else {
+        next(err);
+      }
+    });
+};
+
+const deleteCard = (req, res, next) => {
+  const { cardId } = req.params._id;
+  console.log(cardId);
+  Card.findById(cardId)
+    .orFail(() => {
+      throw new Error('Card not found');
+    })
+    .then((card) => {
+      if (card.owner.toString() !== req.user._id) {
+        next(new Error('You are not authorized to delete this card'));
+      } else {
+        Card.findByIdAndRemove(cardId).then((deletedCard) =>
+          res.status(200).send(deletedCard)
+        );
       }
     })
     .catch(next);
 };
-
-const deleteCard = (req, res, next) => {
-  const { cardId } = req.params;
-
-  Card.deleteOne({ cardId })
-    .orFail(() => {
-      const error = new Error('no Card found for the specifed id');
-      error.statusCode = 404;
-      throw error;
-    })
-    .then((card) => res.send({ data: card }))
-    .catch(next);
-  // .catch((err) => {
-  //   if (err.name === 'CastError') {
-  //     customError(res, 400, 'Invaild Card ID');
-  //   } else if (err.statusCode === 404) {
-  //     customError(res, 404, err.message);
-  //   } else {
-  //     customError(res, 500, 'We have encountered an error');
-  //   }
-  // });
-};
-const updateLikes = (req, res, operator) => {
+const updateLikes = (req, res, next, method) => {
   const { cardId } = req.params;
   const { _id } = req.user;
-
-  Card.findByIdAndUpdate(
-    cardId, // searches for the card on the database
-    { [operator]: { likes: _id } }, // $pull / $addToSet
-    { new: true }
-  )
-    .orFail(() => {
-      const error = new Error('Card is not found');
-      error.status = 404;
-
-      throw error;
-    })
-    .then((card) => res.send({ data: card }))
-    .catch(next);
-  // .catch((err) => {
-  //   if (err.name === 'CastError') {
-  //     customError(res, 400, 'Card id is incorrect');
-  //   } else if (err.status === 404) {
-  //     customError(res, 404, 'Invalid user id');
-  //   } else {
-  //     customError(res, 500, 'Something went wrong');
-  //   }
-  // });
+  processCardWithId(
+    req,
+    res,
+    Card.findByIdAndUpdate(cardId, { [method]: { likes: _id } }, { new: true }),
+    next
+  );
 };
 
-const likeCard = (req, res) => updateLikes(req, res, { $addToSet: {} });
+const likeCard = (req, res, next) => updateLikes(req, res, next, '$addToSet');
 
-const unlikeCard = (req, res) => updateLikes(req, res, { $pull: {} });
+const unlikeCard = (req, res, next) => updateLikes(req, res, next, '$pull');
 
 module.exports = {
   getCards,
