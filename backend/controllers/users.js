@@ -1,15 +1,14 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/user');
 const { customError } = require('../utils/consts');
-const Errorr = require('../utils/errors');
-
+const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 require('dotenv').config();
 
 const { JWT_SECRET } = process.env;
-const jwt = require('jsonwebtoken');
-const { errorMonitor } = require('events');
 
-const processUserWithId = (req, res, action, next) =>
+const processUserWithId = (_req, res, action, next) =>
   action
     .orFail(() => {
       throw new Error('No user found with this Id');
@@ -27,7 +26,7 @@ const processUserWithId = (req, res, action, next) =>
       }
     });
 
-const getUsers = (req, res, next) => {
+const getUsers = (_req, res, next) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
     .catch(next);
@@ -41,7 +40,9 @@ const getUserId = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password
+  } = req.body;
   User.findOne({ email })
     .then((user) => {
       if (user) {
@@ -107,9 +108,7 @@ const login = (req, res, next) => {
       });
       res.send({ data: user, token });
     })
-    .catch((err) => {
-      next(new Errorr.UnauthorizedError('Incorrect Email Or Password'));
-    });
+    .catch(next(new UnauthorizedError('Incorrect Email Or Password')));
 };
 
 module.exports = {

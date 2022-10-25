@@ -1,17 +1,7 @@
-class NotFoundError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 404;
-  }
-}
-class BadRequestError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 400;
-  }
-}
+const BadRequestError = require('./errors/BadRequestError');
+const NotFoundError = require('./errors/NotFoundError');
 
-const processCardWithId = (req, res, action, next) =>
+const processCardWithId = (_req, res, action, next) =>
   action
     .orFail(() => {
       throw new NotFoundError('No card found with this Id');
@@ -31,7 +21,7 @@ const processCardWithId = (req, res, action, next) =>
       }
     });
 
-const processUserWithId = (req, res, action, next) =>
+const processUserWithId = (_req, res, action, next) =>
   action
     .orFail(() => {
       throw new NotFoundError('No user found with this Id');

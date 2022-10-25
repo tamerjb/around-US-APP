@@ -1,15 +1,10 @@
 const Card = require('../models/card');
 const { processCardWithId } = require('../utils/helpers');
-const Errorr = require('../utils/errors');
+const ForbiddenError = require('../utils/errors/ForbiddenError');
+const BadRequestError = require('../utils/errors/BadRequestError');
+const NotFoundError = require('../utils/errors/NotFoundError');
 
 // GET
-
-// class BadRequestError extends Error {
-//   constructor(message) {
-//     super(message);
-//     this.statusCode = 400;
-//   }
-// }
 
 const getCards = (_req, res, next) => {
   Card.find({})
@@ -30,7 +25,7 @@ const createCard = (req, res, next) => {
     .then((card) => res.status(201).send(card)) // changed from data to cards :data
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(Errorr.BadRequestError(err.message));
+        next(BadRequestError(err.message));
       } else {
         next(err);
       }
@@ -41,15 +36,11 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   Card.findById(cardId)
     .orFail(() => {
-      throw new Errorr.NotFoundError('Card Not Found');
+      throw new NotFoundError('Card Not Found');
     })
     .then((card) => {
       if (card.owner.toString() !== req.user._id) {
-        next(
-          new Errorr.ForbiddenError(
-            'You are not authorized to delete this card'
-          )
-        );
+        next(new ForbiddenError('You are not authorized to delete this card'));
       } else {
         Card.findByIdAndRemove(cardId).then((deletedCard) =>
           res.status(200).send(deletedCard)
