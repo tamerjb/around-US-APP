@@ -37,7 +37,7 @@ const getCurrentUser = (req, res, next) => {
   processUserWithId(req, res, User.findById(req.user._id), next);
 };
 const getUserId = (req, res, next) => {
-  processUserWithId(req, res, User.findById(req.params._id), next);
+  processUserWithId(req, res, User.findById(req.user._id), next);
 };
 
 const createUser = (req, res, next) => {
