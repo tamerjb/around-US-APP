@@ -6,7 +6,7 @@ const NotFoundError = require('../utils/errors/NotFoundError');
 
 // GET
 
-const getCards = (_req, res, next) => {
+const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards))
     .catch(next);

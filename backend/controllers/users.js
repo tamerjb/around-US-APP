@@ -8,7 +8,7 @@ require('dotenv').config();
 
 const { JWT_SECRET } = process.env;
 
-const processUserWithId = (_req, res, action, next) =>
+const processUserWithId = (req, res, action, next) =>
   action
     .orFail(() => {
       throw new Error('No user found with this Id');
@@ -26,7 +26,7 @@ const processUserWithId = (_req, res, action, next) =>
       }
     });
 
-const getUsers = (_req, res, next) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
     .catch(next);
@@ -40,9 +40,7 @@ const getUserId = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const {
-    name, about, avatar, email, password
-  } = req.body;
+  const { name, about, avatar, email, password } = req.body;
   User.findOne({ email })
     .then((user) => {
       if (user) {

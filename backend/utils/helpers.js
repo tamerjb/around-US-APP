@@ -1,7 +1,7 @@
 const BadRequestError = require('./errors/BadRequestError');
 const NotFoundError = require('./errors/NotFoundError');
 
-const processCardWithId = (_req, res, action, next) =>
+const processCardWithId = (req, res, action, next) =>
   action
     .orFail(() => {
       throw new NotFoundError('No card found with this Id');
@@ -21,7 +21,7 @@ const processCardWithId = (_req, res, action, next) =>
       }
     });
 
-const processUserWithId = (_req, res, action, next) =>
+const processUserWithId = (req, res, action, next) =>
   action
     .orFail(() => {
       throw new NotFoundError('No user found with this Id');
