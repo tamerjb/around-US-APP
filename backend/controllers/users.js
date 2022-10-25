@@ -104,9 +104,11 @@ const login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
-      res.send({ data: user, token });
+      res.send({ data: user.toJSON(), token });
     })
-    .catch(next(new UnauthorizedError('Incorrect Email Or Password')));
+    .catch(() => {
+      next(new UnauthorizedError('Incorrect email or password'));
+    });
 };
 
 module.exports = {
