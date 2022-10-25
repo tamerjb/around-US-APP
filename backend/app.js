@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const app = express();
 const cors = require('cors');
 const { limiter } = require('./middleware/limiter');
-require('dotenv').config({ path: './.env' });
+require('dotenv').config();
 const errorHandler = require('./middleware/errorHandler');
 const router = require('./routes');
 
@@ -15,8 +15,8 @@ const { PORT = 3000 || process.env } = process.env;
 
 const { MONGODB_URI = 'mongodb://localhost:27017/aroundb' } = process.env;
 mongoose.connect(MONGODB_URI);
-const allowedOrigins = '*';
-app.use(cors({ origin: allowedOrigins }));
+app.use(cors());
+app.options('*', cors()); //enable requests for all routes
 /// ///////////////////////////////////////////////////////////////////
 
 const { requestLogger, errorLogger } = require('./middleware/logger');
@@ -39,3 +39,4 @@ app.use(errorLogger);
 
 app.listen(PORT);
 console.log('port', PORT);
+console.log(process.env.NODE_ENV);
