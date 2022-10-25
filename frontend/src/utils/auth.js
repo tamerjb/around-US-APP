@@ -4,7 +4,7 @@ let node_env = 'production';
 let BASE_URL =
   node_env === 'production'
     ? 'http://api.aroundtamer.students.nomoredomainssbs.ru'
-    : 'http://localhost:3000';
+    : 'http://localhost:3001';
 
 const customFetch = (url, headers) => {
   return fetch(url, headers).then(res =>

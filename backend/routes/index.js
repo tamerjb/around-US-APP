@@ -9,7 +9,6 @@ const NotFoundError = require('../utils/errors/NotFoundError');
 const auth = require('../middleware/auth');
 const usersRoute = require('./users');
 const cardsRoute = require('./cards');
-// const nonRoute = require('./nonRoute');
 
 router.post('/signup', validateUserBody, createUser);
 router.post('/signin', validateAuthentication, login);
