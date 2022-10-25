@@ -2,7 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const { customError } = require('../utils/consts');
+const ConflictError = require('../utils/errors/ConflictError');
+
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 require('dotenv').config();
 
@@ -40,13 +41,11 @@ const getUserId = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const {
-    name, about, avatar, email, password
-  } = req.body;
+  const { name, about, avatar, email, password } = req.body;
   User.findOne({ email })
     .then((user) => {
       if (user) {
-        customError(res, 409, 'Email already exists');
+        throw new ConflictError('Email already exists');
       }
       return bcrypt.hash(password, 10);
     })
@@ -62,13 +61,9 @@ const createUser = (req, res, next) => {
     .then((user) => res.status(201).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
-          message: `${Object.values(err.errors)
-            .map((error) => error.message)
-            .join(', ')}`,
-        });
+        next(new BadRequestError(err.message));
       } else {
-        customError(res, 500, 'We have encountered an error');
+        next(err);
       }
     });
 };
