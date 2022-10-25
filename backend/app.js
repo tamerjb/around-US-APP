@@ -34,6 +34,11 @@ app.use(router);
 app.use(errorHandler);
 app.use(errors());
 app.use(errorLogger);
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
 
 /// ///////////////////////////////////////////////////////////////////
 
