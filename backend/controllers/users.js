@@ -40,7 +40,9 @@ const getUserId = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password
+  } = req.body;
   User.findOne({ email })
     .then((user) => {
       if (user) {
