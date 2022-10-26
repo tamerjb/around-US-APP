@@ -4,11 +4,6 @@ const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// if NODE_ENV is 'production', use secret key. Otherwise use 'not-so-secret-string'
-// const token = jwt.sign(
-//   { _id: user._id },
-//   NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string'
-// );
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
 

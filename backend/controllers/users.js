@@ -7,10 +7,8 @@ const { processUserWithId } = require('../utils/helpers');
 
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 require('dotenv').config();
-// console.log(process.env.JWT_SECRET);
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// if NODE_ENV is 'production', use secret key. Otherwise use 'not-so-secret-string'
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
@@ -80,45 +78,23 @@ const updateAvatar = (req, res, next) => {
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  return User.findUserByCredentials(email, password)
-    .then((user) => {
-      const token = jwt.sign(
-        { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string'
-      );
-      console.log(user.email);
-      // console.log('token:', token);
-      res.send({ user, token });
-      console.log('user:', { user });
-    })
-    .catch(() => {
-      next(new UnauthorizedError('Incorrect email or password'));
-    });
+  return (
+    User.findUserByCredentials(email, password)
+      // if NODE_ENV is 'production', use secret key. Otherwise use 'not-so-secret-string'
+
+      .then((user) => {
+        const token = jwt.sign(
+          { _id: user._id },
+          NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string'
+        );
+        res.send({ user, token });
+      })
+      .catch(() => {
+        next(new UnauthorizedError('Incorrect email or password'));
+      })
+  );
 };
-// controllers/users.js
 
-// const login = (req, res, next) => {
-//   const { email, password } = req.body;
-
-//   User.findOne({ email }).then((user) => {
-//     if (!user) {
-//       return Promise.reject(new Error('Incorrect password or email'));
-//     }
-//     // user.password is the hash from the database
-//     return bcrypt
-//       .compare(password, user.password)
-//       .then((matched) => {
-//         if (!matched) {
-//           return Promise.reject(new Error('bad cred'));
-//         }
-//         // successful authentication
-//         res.send({ message: 'Everything good!' });
-//       })
-//       .catch((err) => {
-//         res.status(401).send({ message: err.message });
-//       });
-//   });
-// };
 module.exports = {
   getUsers,
   getUserId,
