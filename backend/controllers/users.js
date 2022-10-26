@@ -3,29 +3,12 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const ConflictError = require('../utils/errors/ConflictError');
+const processUserWithId = require('../utils/helpers');
 
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 require('dotenv').config();
 
 const { JWT_SECRET } = process.env;
-
-const processUserWithId = (req, res, action, next) =>
-  action
-    .orFail(() => {
-      throw new Error('No user found with this Id');
-    })
-    .then((user) => {
-      res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new Error(err.message));
-      } else if (err.name === 'ValidationError') {
-        next(new Error(err.message));
-      } else {
-        next(err);
-      }
-    });
 
 const getUsers = (req, res, next) => {
   User.find({})
