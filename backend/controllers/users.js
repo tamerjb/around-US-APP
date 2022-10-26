@@ -7,9 +7,10 @@ const { processUserWithId } = require('../utils/helpers');
 
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 require('dotenv').config();
+// console.log(process.env.JWT_SECRET);
+const { NODE_ENV, JWT_SECRET } = process.env;
 
-const { JWT_SECRET } = process.env;
-
+// if NODE_ENV is 'production', use secret key. Otherwise use 'not-so-secret-string'
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.status(200).send({ data: users }))
@@ -81,12 +82,14 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-        expiresIn: '7d',
-      });
-      console.log('token:', token);
-      res.send({ token, user });
-      console.log('user:', user);
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string'
+      );
+      console.log(user.email);
+      // console.log('token:', token);
+      res.send({ user, token });
+      console.log('user:', { user });
     })
     .catch(() => {
       next(new UnauthorizedError('Incorrect email or password'));
