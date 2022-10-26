@@ -1,5 +1,5 @@
 // let BASE_URL = 'http://localhost:3000';
-let node_env = 'production';
+let node_env = '';
 
 let BASE_URL =
   node_env === 'production'

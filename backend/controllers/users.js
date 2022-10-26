@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const ConflictError = require('../utils/errors/ConflictError');
-const processUserWithId = require('../utils/helpers');
+const { processUserWithId } = require('../utils/helpers');
 
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 require('dotenv').config();
@@ -92,7 +92,30 @@ const login = (req, res, next) => {
       next(new UnauthorizedError('Incorrect email or password'));
     });
 };
+// controllers/users.js
 
+// const login = (req, res, next) => {
+//   const { email, password } = req.body;
+
+//   User.findOne({ email }).then((user) => {
+//     if (!user) {
+//       return Promise.reject(new Error('Incorrect password or email'));
+//     }
+//     // user.password is the hash from the database
+//     return bcrypt
+//       .compare(password, user.password)
+//       .then((matched) => {
+//         if (!matched) {
+//           return Promise.reject(new Error('bad cred'));
+//         }
+//         // successful authentication
+//         res.send({ message: 'Everything good!' });
+//       })
+//       .catch((err) => {
+//         res.status(401).send({ message: err.message });
+//       });
+//   });
+// };
 module.exports = {
   getUsers,
   getUserId,
