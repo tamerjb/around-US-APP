@@ -97,7 +97,7 @@ class Api {
   }
 }
 
-let node_env = '';
+let node_env = 'production';
 
 let baseUrl =
   node_env === 'production'
