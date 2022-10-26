@@ -80,7 +80,7 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
   return (
     User.findUserByCredentials(email, password)
-      // if NODE_ENV is 'production', use secret key. Otherwise use 'not-so-secret-string'
+      // if NODE_ENV is 'production'use secret key. Otherwise use 'not-so-secret-string'
 
       .then((user) => {
         const token = jwt.sign(
