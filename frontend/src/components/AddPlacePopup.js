@@ -33,7 +33,7 @@ const AddPlacePopup = ({ isLoading, isOpen, onClose, onAddPlaceSubmit }) => {
             placeholder="Title"
             className="form__input form__input_type_place-name"
             required
-            minLength="1"
+            minLength="2"
             maxLength="30"
             onChange={handleChange}
             value={values.name || ''}
