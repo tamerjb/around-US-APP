@@ -1,8 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/user');
 const ConflictError = require('../utils/errors/ConflictError');
+const BadRequestError = require('../utils/errors/BadRequestError');
+
 const { processUserWithId } = require('../utils/helpers');
 
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
@@ -40,6 +41,7 @@ const createUser = (req, res, next) => {
         password: hash,
       })
     )
+
     .then((user) => res.status(201).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -85,7 +87,8 @@ const login = (req, res, next) => {
       .then((user) => {
         const token = jwt.sign(
           { _id: user._id },
-          NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string'
+          NODE_ENV === 'production' ? JWT_SECRET : 'not-so-secret-string',
+          { expiresIn: '2d' }
         );
         res.send({ user, token });
       })

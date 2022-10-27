@@ -1,6 +1,6 @@
 # Around the U.S
 
-## Application overview
+## Application
 
 **Full stack web application with the following features**
 
@@ -8,7 +8,7 @@
 - Image uploading, deleting and a like feature.
 - Profile editing which including: Edit profile picture, name and about.
 
-## Back-End overview
+## Back-End
 
 **Used technologies**
 
@@ -17,13 +17,13 @@
 
 Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 
-## Front-End overview
+## Front-End
 
 **Used technologies**
 
 - React & CSS3
 
-## Cloud overview
+## Cloud
 
 **Used technologies**
 

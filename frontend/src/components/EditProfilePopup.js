@@ -1,28 +1,28 @@
-import React, { useEffect, useContext, useState } from "react";
-import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import React, { useEffect, useContext, useState } from 'react';
+import PopupWithForm from './PopupWithForm';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 const EditProfilePopup = ({ isLoading, isOpen, onClose, onUpdateUser }) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
-    setName(currentUser.name || "");
-    setDescription(currentUser.about || "");
-  }, [currentUser]);
-  const handleNameChange = (e) => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser, isOpen]);
+  const handleNameChange = e => {
     setName(e.target.value);
   };
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = e => {
     setDescription(e.target.value);
   };
   function handleSubmit(e) {
     e.preventDefault();
     onUpdateUser({
       name,
-      about: description,
+      about: description
     });
   }
   return (
@@ -32,7 +32,7 @@ const EditProfilePopup = ({ isLoading, isOpen, onClose, onUpdateUser }) => {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      buttonText={isLoading ? "Saving..." : "Save"}
+      buttonText={isLoading ? 'Saving...' : 'Save'}
     >
       <fieldset className="form__fieldset">
         <div className="form__input-container">
@@ -47,6 +47,7 @@ const EditProfilePopup = ({ isLoading, isOpen, onClose, onUpdateUser }) => {
             maxLength="40"
             onChange={handleNameChange}
             required
+            autoComplete="off"
           />
           <span className="form__input-error name-input-error" />
         </div>
@@ -62,6 +63,7 @@ const EditProfilePopup = ({ isLoading, isOpen, onClose, onUpdateUser }) => {
             onChange={handleDescriptionChange}
             required
             value={description}
+            autoComplete="off"
           />
           <span className="form__input-error title-input-error" />
         </div>

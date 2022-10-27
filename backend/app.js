@@ -40,30 +40,6 @@ app.get('/crash-test', () => {
     throw new Error('Server will crash now');
   }, 0);
 });
-// An array of domains from which cross-domain requests are allowed
-
-// app.use((req, res, next) => {
-//   const { origin } = req.headers; // saving the request source to the 'origin' variable
-//   // checking that the source of the request is mentioned in the list of allowed ones
-//   if (allowedCors.includes(origin)) {
-//     res.header('Access-Control-Allow-Origin', '*');
-//   }
-
-//   next();
-//   const { method } = req; // Saving the request type (HTTP method) to the corresponding variable
-
-//   // Default value for Access-Control-Allow-Methods header (all request types are allowed)
-//   const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-//   const requestHeaders = req.headers['access-control-request-headers'];
-
-//   // If this is a preliminary request, add the required headers
-//   if (method === 'OPTIONS') {
-//     // allowing cross-domain requests of any type (default)
-//     res.header('Access-Control-Allow-Methods', requestHeaders);
-//     return res.end();
-//   }
-//   // saving the list of headers of the original request
-// });
 
 /// ///////////////////////////////////////////////////////////////////
 

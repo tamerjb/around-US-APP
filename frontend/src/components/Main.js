@@ -18,7 +18,7 @@ const Main = ({
         <div onClick={onEditAvatarClick} className="profile__image-container">
           <img
             src={currentUser.avatar}
-            alt="Profile Picture"
+            alt="Profile"
             className="profile__image"
           />
         </div>

@@ -14,7 +14,7 @@ const getCards = (req, res, next) => {
 
 // POST
 const createCard = (req, res, next) => {
-  const { name, link } = req.body;
+  const { name, link, owner } = req.body;
   const { _id } = req.user;
 
   Card.create({
@@ -33,8 +33,8 @@ const createCard = (req, res, next) => {
 };
 
 const deleteCard = (req, res, next) => {
-  const { cardId } = req.params;
-  Card.findById(cardId)
+  const { id } = req.params;
+  Card.findById(id)
     .orFail(() => {
       throw new NotFoundError('Card Not Found');
     })
@@ -42,20 +42,21 @@ const deleteCard = (req, res, next) => {
       if (card.owner.toString() !== req.user._id) {
         next(new ForbiddenError('You are not authorized to delete this card'));
       } else {
-        Card.findByIdAndRemove(cardId).then((deletedCard) =>
+        Card.findByIdAndRemove(id).then((deletedCard) =>
           res.status(200).send(deletedCard)
         );
       }
     })
     .catch(next);
 };
+// { id = used for card id} , { _id = used for user id}
 const updateLikes = (req, res, next, method) => {
-  const { cardId } = req.params;
+  const { id } = req.params;
   const { _id } = req.user;
   processCardWithId(
     req,
     res,
-    Card.findByIdAndUpdate(cardId, { [method]: { likes: _id } }, { new: true }),
+    Card.findByIdAndUpdate(id, { [method]: { likes: _id } }, { new: true }),
     next
   );
 };

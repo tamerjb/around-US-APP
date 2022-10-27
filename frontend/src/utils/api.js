@@ -53,8 +53,8 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  deleteCard(cardId, token) {
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+  deleteCard(id, token) {
+    return fetch(`${this._baseUrl}/cards/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${token}`
@@ -63,9 +63,9 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  changeLikeCardStatus(cardId, isLiked, token) {
+  changeLikeCardStatus(id, isLiked, token) {
     if (!isLiked) {
-      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: `Bearer ${token}`
@@ -73,7 +73,7 @@ class Api {
         method: 'PUT'
       }).then(this._checkResponse);
     } else {
-      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
         headers: {
           'Content-Type': 'application/json',
           authorization: `Bearer ${token}`
