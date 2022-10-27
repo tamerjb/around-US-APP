@@ -81,6 +81,8 @@ function App() {
 
   //check token
   useEffect(() => {
+    const token = localStorage.getItem('jwt');
+
     if (token) {
       auth
         .checkToken(token)
