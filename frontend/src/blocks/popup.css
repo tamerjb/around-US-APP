@@ -46,6 +46,7 @@
 
 }
 
+
 .popup-type-delete-card {
     display: flex;
     flex-direction: column;
@@ -119,14 +120,19 @@
 @media screen and (max-width: 570px) {
     .popup__close-button {
         background-size: 20px 20px;
-        top: -30px;
-        right: -20px;
+        top: -20px;
+        right: -30px;
     }
 
     .popup__container {
-        gap: 76px;
-        padding: 25px 22px;
+        padding: 20px;
         max-width: 280px;
+    }
+
+    .popup__image {
+
+        max-height: 100vh;
+        max-width: 100vw;
     }
 }
 
@@ -138,7 +144,6 @@
     }
 
     .popup__container {
-        gap: 76px;
         padding: 25px 22px;
         max-width: 280px;
     }

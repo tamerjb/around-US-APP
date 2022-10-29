@@ -1,5 +1,5 @@
 .form {
-    max-width: 358px;
+    max-width: 100%;
     width: 358px;
     display: flex;
     flex-direction: column;

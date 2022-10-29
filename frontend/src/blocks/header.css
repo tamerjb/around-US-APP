@@ -1,5 +1,6 @@
 .header {
-    max-width: 880px;
+    max-width: 90%;
+    width: 880px;
     margin: 0 auto 0;
     border-bottom: rgba(84, 84, 84, 0.7) solid 1px;
     padding: 45px 0 0 0;
@@ -8,7 +9,6 @@
 .header__container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
 .header__logo {
@@ -103,12 +103,11 @@
     .header__logo {
         max-width: 126px;
         max-height: 24px;
-        margin: 0 auto 0 30px;
-        padding-bottom: 20px;
+        margin: 0 auto 0 20px;
     }
 
     .header_navbar {
-        padding-right: 30px;
+        padding-right: 15px;
     }
 
     .header__links {
