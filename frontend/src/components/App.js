@@ -87,7 +87,7 @@ function App() {
       auth
         .checkToken(token)
         .then(res => {
-          if (res.data) {
+          if (res._id) {
             setLoggedIn(true);
             setUserData({ email: res.email });
             history.push('/');
@@ -244,6 +244,10 @@ function App() {
   function handleSignout() {
     setLoggedIn(false);
     localStorage.removeItem('jwt');
+    setCurrentUser({
+      name: '',
+      about: ''
+    });
     history.push('/signin');
   }
   function handleCardLike(card) {
