@@ -8,6 +8,7 @@ const { processUserWithId } = require('../utils/helpers');
 
 const UnauthorizedError = require('../utils/errors/UnauthorizedError');
 require('dotenv').config();
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getUsers = (req, res, next) => {
