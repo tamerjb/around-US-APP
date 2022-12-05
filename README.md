@@ -46,5 +46,5 @@ Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 
 **Links**
 
-- [Open app](https://aroundtamer.students.nomoredomainssbs.ru/)
-- API => https://api.aroundtamer.students.nomoredomainssbs.ru
+- [Open app](https://aroundus.tamir.students.nomoredomainssbs.ru)
+- [API] (https://api.aroundus.tamir.students.nomoredomainssbs.ru)
