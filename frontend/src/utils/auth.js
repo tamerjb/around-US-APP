@@ -1,3 +1,5 @@
+let node_env = 'production';
+
 let BASE_URL =
   node_env === 'production'
     ? 'https://api.aroundus.tamir.students.nomoredomainssbs.ru'
