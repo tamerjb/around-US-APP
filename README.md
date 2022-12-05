@@ -21,7 +21,7 @@ Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 
 **Used technologies**
 
-- React & CSS3
+- React & CSS3.
 
 ## Cloud
 
