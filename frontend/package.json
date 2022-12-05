@@ -24,10 +24,7 @@
     "deploy": "npm run build && scp -r ./build/* tamerjb.98@35.233.172.120:/home/tamerjb.98/website/frontend"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+
   },
   "browserslist": {
     "production": [
