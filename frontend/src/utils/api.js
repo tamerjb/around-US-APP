@@ -99,11 +99,7 @@ class Api {
 
 let node_env = 'production';
 
-let baseUrl =
-  node_env === 'production'
-    ? 'https://api.aroundtamer.students.nomoredomainssbs.ru'
-    : 'http://localhost:3000';
-// let baseUrl = 'http://localhost:3000';
+let baseUrl = 'https://api.aroundus.tamir.students.nomoredomainssbs.ru';
 
 const api = new Api({
   baseUrl

@@ -1,10 +1,4 @@
-// let BASE_URL = 'http://localhost:3000';
-let node_env = 'production';
-
-let BASE_URL =
-  node_env === 'production'
-    ? 'https://api.aroundtamer.students.nomoredomainssbs.ru'
-    : 'http://localhost:3000';
+let BASE_URL = 'https://api.aroundus.tamir.students.nomoredomainssbs.ru';
 
 const customFetch = (url, headers) => {
   return fetch(url, headers).then(res =>
