@@ -4,11 +4,10 @@
   "description": "`/data` — JSON files to temporarily emulate database integration.",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js ",
-    "lint": "npx eslint",
-    "test": "cross-env NODE_ENV=test jest",
-    "type": "module"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint .",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
