@@ -29,7 +29,8 @@ app.use(helmet());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); // enable requests for all routes
+app.use(cors());
+app.options('*', cors());
 app.use(router);
 app.use(errorHandler);
 app.use(errors());
