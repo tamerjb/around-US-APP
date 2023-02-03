@@ -1,8 +1,8 @@
-let node_env = 'production';
+let node_env = 'x';
 
 let BASE_URL =
   node_env === 'production'
-    ? 'https://api.aroundus.tamir.students.nomoredomainssbs.ru'
+    ? 'http://localhost:3000'
     : 'http://localhost:3000';
 const customFetch = (url, headers) => {
   return fetch(url, headers).then(res =>
