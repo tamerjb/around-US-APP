@@ -22,8 +22,8 @@ mongoose.connect(MONGODB_URI);
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
 app.use(requestLogger); // enabling the request logger
-app.use(limiter);
-app.use(helmet());
+// app.use(limiter);
+// app.use(helmet());
 
 /// ///////////////////////////////////////////////////////////////////
 /// ///////////////////////////////////////////////////////////////////
