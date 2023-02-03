@@ -12,7 +12,6 @@ const router = require('./routes');
 
 /// ///////////////////////////////////////////////////////////////////
 const { PORT = 3000 } = process.env;
-
 const { MONGODB_URI = 'mongodb+srv://tamer:h9nYerrjtak3XmKG@cluster0.lkzib1k.mongodb.net/?retryWrites=true&w=majority'
 } = process.env;
 mongoose.connect(MONGODB_URI);
