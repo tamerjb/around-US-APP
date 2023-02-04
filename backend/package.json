@@ -33,7 +33,7 @@
     "joi": "^17.6.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.4",
-    "node": "^19.0.0",
+    "node": "^16.0.0",
     "validator": "^13.7.0",
     "vercel": "^28.15.0",
     "winston": "^3.8.2"
