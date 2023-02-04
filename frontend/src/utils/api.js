@@ -97,11 +97,11 @@ class Api {
   }
 }
 
-let node_env = '';
+let node_env = 'production';
 
 let baseUrl =
   node_env === 'production'
-    ? 'https://api.aroundus.tamir.students.nomoredomainssbs.ru'
+    ? 'https://around-us-app.vercel.app'
     : 'http://localhost:3000';
 const api = new Api({
   baseUrl
