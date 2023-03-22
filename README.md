@@ -8,7 +8,7 @@
 - Image uploading, deleting and a like feature.
 - Profile editing which including: Edit profile picture, name and about.
 
-## Back-End
+## Back-End:
 
 **Used technologies**
 
@@ -17,7 +17,7 @@
 
 Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 
-## Front-End
+## Front-End:
 
 **Used technologies**
 
