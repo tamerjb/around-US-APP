@@ -33,12 +33,12 @@ function App() {
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({
     name: '',
-    link: ''
+    link: '',
   });
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({
-    name: 'Loading...',
-    about: 'Loading...'
+    name: 'Loading..',
+    about: 'Loading..',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [infoTooltipType, setInfoTooltipType] = useState('');
@@ -48,7 +48,7 @@ function App() {
 
   //state for user data
   const [userData, setUserData] = useState({
-    email: ''
+    email: '',
   });
   //state for checking token
   const [isCheckingToken, setIsCheckingToken] = useState(true);
@@ -61,7 +61,7 @@ function App() {
     if (token) {
       api
         .getInitialCards(token)
-        .then(res => {
+        .then((res) => {
           setCards(res);
         })
         .catch(console.log);
@@ -72,7 +72,7 @@ function App() {
     if (token) {
       api
         .getUserInfo(token)
-        .then(user => {
+        .then((user) => {
           setCurrentUser(user);
         })
         .catch(console.log);
@@ -86,14 +86,14 @@ function App() {
     if (token) {
       auth
         .checkToken(token)
-        .then(res => {
+        .then((res) => {
           if (res._id) {
             setLoggedIn(true);
             setUserData({ email: res.email });
             history.push('/');
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           history.push('/signin');
         })
@@ -126,15 +126,15 @@ function App() {
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   };
-  const handleDeleteClick = card => {
+  const handleDeleteClick = (card) => {
     setIsDeletePopupOpen(true);
     setSelectedCard(card);
   };
-  const handleCardClick = card => {
+  const handleCardClick = (card) => {
     setIsImagePreviewOpen(true);
     setSelectedCard({
       name: card.name,
-      link: card.link
+      link: card.link,
     });
   };
   function handleCardDelete(e) {
@@ -143,9 +143,9 @@ function App() {
 
     api
       .deleteCard(selectedCard._id, token)
-      .then(res => {
+      .then((res) => {
         const newCards = cards.filter(
-          currentCard => currentCard._id !== selectedCard._id
+          (currentCard) => currentCard._id !== selectedCard._id
         );
         setCards(newCards);
         closeAllPopups();
@@ -159,7 +159,7 @@ function App() {
     setIsLoading(true);
     api
       .setUserAvatar(url, token)
-      .then(res => {
+      .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
       })
@@ -172,7 +172,7 @@ function App() {
     setIsLoading(true);
     api
       .setUserInfo({ name, about }, token)
-      .then(res => {
+      .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
       })
@@ -185,7 +185,7 @@ function App() {
     setIsLoading(true);
     api
       .createCard(card, token)
-      .then(card => {
+      .then((card) => {
         setCards([card, ...cards]);
         closeAllPopups();
       })
@@ -199,7 +199,7 @@ function App() {
     setIsLoading(true);
     auth
       .register(email, password)
-      .then(res => {
+      .then((res) => {
         if (res.data._id) {
           setInfoTooltipType('successful');
           history.push('/signin');
@@ -207,7 +207,7 @@ function App() {
           setInfoTooltipType('unsuccessful');
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setInfoTooltipType('unsuccessful');
       })
@@ -221,7 +221,7 @@ function App() {
     setIsLoading(true);
     auth
       .login(email, password)
-      .then(res => {
+      .then((res) => {
         if (res.token) {
           setLoggedIn(true);
           setUserData({ email });
@@ -230,7 +230,7 @@ function App() {
           history.push('/');
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setInfoTooltipType('unsuccessful');
         setIsInfoTooltipOpen(true);
@@ -246,19 +246,19 @@ function App() {
     localStorage.removeItem('jwt');
     setCurrentUser({
       name: '',
-      about: ''
+      about: '',
     });
     history.push('/signin');
   }
   function handleCardLike(card) {
     // Check one more time if this card was already liked
-    const isLiked = card.likes.some(user => user === currentUser._id);
+    const isLiked = card.likes.some((user) => user === currentUser._id);
     // Send a request to the API and getting the updated card data
     api
       .changeLikeCardStatus(card._id, isLiked, token)
-      .then(newCard => {
-        setCards(cards =>
-          cards.map(currentCard =>
+      .then((newCard) => {
+        setCards((cards) =>
+          cards.map((currentCard) =>
             currentCard._id === card._id ? newCard : currentCard
           )
         );
