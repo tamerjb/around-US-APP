@@ -13,7 +13,7 @@
 **Used technologies**
 
 - Node & Express.
-- MongoDB & Mongoose.
+- MongoDB & Mongoose & MongoDB-Atlas.
 
 Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 
@@ -21,13 +21,13 @@ Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 
 **Used technologies**
 
-- React & CSS3.
+- React & CSS3 & Node.JS.
 
 ## Cloud
 
 **Used technologies**
 
-- GCP, Ubuntu 22.04 LTS, Nginx, Certbot for HTTPS redirection, and PM2.
+- Vercel's serverless technology.
 
 **CI/CD**
 
@@ -46,5 +46,5 @@ Third party libraries: cors, limiter, helmet, jwt, celebrate, and joi.
 
 **Links**
 
-- [Open app](https://aroundus.tamir.students.nomoredomainssbs.ru)
-- [API](https://api.aroundus.tamir.students.nomoredomainssbs.ru)
+- [Open app](https://around-us-app-oebn.vercel.app/signin)
+- [API](https://around-us-pfdsdf65e-tamerjb.vercel.app/)
