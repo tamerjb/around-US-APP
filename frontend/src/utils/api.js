@@ -101,7 +101,7 @@ let node_env = 'production';
 
 let baseUrl =
   node_env === 'production'
-    ? 'around-us-app-api.vercel.app'
+    ? 'https://around-us-app-api.vercel.app/'
     : 'http://localhost:3000';
 const api = new Api({
   baseUrl,
