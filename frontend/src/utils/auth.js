@@ -2,7 +2,7 @@ let node_env = 'production';
 
 let BASE_URL =
   node_env === 'production'
-    ? 'https://around-us-app-api.vercel.app/'
+    ? 'https://around-us-app-api.vercel.app'
     : 'http://localhost:3000';
 const customFetch = (url, headers) => {
   return fetch(url, headers).then((res) =>
