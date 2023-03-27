@@ -2,10 +2,10 @@ let node_env = 'production';
 
 let BASE_URL =
   node_env === 'production'
-    ? 'https://around-us-app.vercel.app'
+    ? 'around-us-app-api.vercel.app'
     : 'http://localhost:3000';
 const customFetch = (url, headers) => {
-  return fetch(url, headers).then(res =>
+  return fetch(url, headers).then((res) =>
     res.ok ? res.json() : Promise.reject(res.statusText)
   );
 };
@@ -15,9 +15,9 @@ export const register = (email, password) => {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password }),
   });
 };
 export const login = (email, password) => {
@@ -25,18 +25,18 @@ export const login = (email, password) => {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password }),
   });
 };
-export const checkToken = token => {
+export const checkToken = (token) => {
   return customFetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`
-    }
+      authorization: `Bearer ${token}`,
+    },
   });
 };

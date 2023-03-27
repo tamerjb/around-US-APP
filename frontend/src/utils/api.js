@@ -14,8 +14,8 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`
-      }
+        authorization: `Bearer ${token}`,
+      },
     }).then(this._checkResponse);
   }
 
@@ -23,8 +23,8 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`
-      }
+        authorization: `Bearer ${token}`,
+      },
     }).then(this._checkResponse);
   }
 
@@ -32,13 +32,13 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`,
       },
       method: 'PATCH',
       body: JSON.stringify({
         name: name,
-        about: about
-      })
+        about: about,
+      }),
     }).then(this._checkResponse);
   }
 
@@ -46,10 +46,10 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`,
       },
       method: 'POST',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     }).then(this._checkResponse);
   }
 
@@ -57,9 +57,9 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${id}`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`,
       },
-      method: 'DELETE'
+      method: 'DELETE',
     }).then(this._checkResponse);
   }
 
@@ -68,17 +68,17 @@ class Api {
       return fetch(`${this._baseUrl}/cards/${id}/likes`, {
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Bearer ${token}`
+          authorization: `Bearer ${token}`,
         },
-        method: 'PUT'
+        method: 'PUT',
       }).then(this._checkResponse);
     } else {
       return fetch(`${this._baseUrl}/cards/${id}/likes`, {
         headers: {
           'Content-Type': 'application/json',
-          authorization: `Bearer ${token}`
+          authorization: `Bearer ${token}`,
         },
-        method: 'DELETE'
+        method: 'DELETE',
       }).then(this._checkResponse);
     }
   }
@@ -87,12 +87,12 @@ class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Bearer ${token}`
+        authorization: `Bearer ${token}`,
       },
       method: 'PATCH',
       body: JSON.stringify({
-        avatar: url
-      })
+        avatar: url,
+      }),
     }).then(this._checkResponse);
   }
 }
@@ -101,10 +101,10 @@ let node_env = 'production';
 
 let baseUrl =
   node_env === 'production'
-    ? 'https://around-us-app.vercel.app'
+    ? 'around-us-app-api.vercel.app'
     : 'http://localhost:3000';
 const api = new Api({
-  baseUrl
+  baseUrl,
 });
 
 export default api;
